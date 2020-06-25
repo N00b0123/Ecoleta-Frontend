@@ -31,6 +31,9 @@ const CreatePoint = () => {
     const [selectedCity, setSelectedCity] = useState('0');
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
     const [inicialPosition, setInicialPosition] = useState<[number, number]>([0, 0]);
+    const [formData, setFormData] = useState({
+        
+    });
 
     useEffect( () => {
         api.get('items').then(response => {
@@ -50,7 +53,7 @@ const CreatePoint = () => {
             const ufAcronyms = response.data.map(uf => uf.sigla);
             setUfs(ufAcronyms);
         });
-    });
+    }, []);
 
     useEffect( () => {
         if(selectedUf === '0'){
@@ -61,7 +64,7 @@ const CreatePoint = () => {
             const cityNames = response.data.map(city => city.nome);
             setCities(cityNames);
         });
-    });
+    }, [ selectedUf ]);
 
     function handleSelectUf (event: ChangeEvent<HTMLSelectElement>) {
         const uf = event.target.value;
@@ -78,6 +81,10 @@ const CreatePoint = () => {
             event.latlng.lat,
             event.latlng.lng,
         ])
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement>){
+
     }
 
     return (
@@ -102,16 +109,16 @@ const CreatePoint = () => {
                     </legend>
                     <div className="field">
                         <label htmlFor="name">Nome da entidade</label>
-                        <input name="name" id="name" type="text" />
+                        <input name="name" id="name" type="text" onChange={handleInputChange} />
                     </div>
                     <div className="field-group">
                         <div className="field">
                             <label htmlFor="email">E-mail</label>
-                            <input name="email" id="email" type="email" />
+                            <input name="email" id="email" type="email" onChange={handleInputChange} />
                         </div>
                         <div className="field">
                             <label htmlFor="whatsapp">Whatsapp</label>
-                            <input name="whatsapp" id="whatsapp" type="text" />
+                            <input name="whatsapp" id="whatsapp" type="text" onChange={handleInputChange} />
                         </div>
                     </div>
                 </fieldset>
